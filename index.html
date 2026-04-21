@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Compass — Your personal portfolio, navigated.</title>
+<meta name="description" content="A private, local-first portfolio management app for iOS and Android. 20 financial tools, zero cloud dependency.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf9;
+  --card: #ffffff;
+  --tx: #1a1a1a;
+  --sub: #6b6b6b;
+  --mut: #9a9a9a;
+  --bd: #ececea;
+  --hv: #f4f3f1;
+  --gn: #16a34a;
+  --rd: #dc2626;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f10;
+    --card: #1a1a1c;
+    --tx: #f0f0f0;
+    --sub: #a0a0a0;
+    --mut: #707075;
+    --bd: #2a2a2d;
+    --hv: #242428;
+  }
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--tx); }
+
+/* --- Hero --- */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--mut);
+  border: 1px solid var(--bd);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 span { color: var(--gn); }
+.hero p {
+  font-size: 18px;
+  color: var(--sub);
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.hero-cta {
+  display: inline-flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--tx); color: var(--bg); }
+.btn-secondary { background: var(--hv); color: var(--tx); border: 1px solid var(--bd); }
+
+/* --- Section --- */
+.section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--mut);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+/* --- Feature Grid --- */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+.feature {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 22px;
+}
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--hv);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+.feature h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.feature p {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+
+/* --- Tabs Grid --- */
+.tabs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.tab-item {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tab-item .num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mut);
+  min-width: 22px;
+}
+.tab-item .name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.tab-item .desc {
+  font-size: 11px;
+  color: var(--sub);
+  margin-top: 2px;
+}
+
+/* --- Tech Stack --- */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.stack-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 20px;
+  color: var(--sub);
+}
+
+/* --- Privacy --- */
+.privacy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.privacy-card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.privacy-card .icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+.privacy-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.privacy-card p { font-size: 13px; color: var(--sub); }
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  padding: 40px 20px 60px;
+  font-size: 12px;
+  color: var(--mut);
+  border-top: 1px solid var(--bd);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* --- Divider --- */
+.divider {
+  max-width: 1080px;
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid var(--bd);
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .hero { padding: 50px 16px 40px; }
+  .section { padding: 40px 16px; }
+  .features { grid-template-columns: 1fr; }
+  .tabs-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">iOS + ANDROID</div>
+  <h1>Your wealth,<br><span>navigated.</span></h1>
+  <p>20 financial tools in one private app. Portfolio tracking, FIRE planning, tax projection, college funds, Monte Carlo simulations — all local, all yours.</p>
+  <div class="hero-cta">
+    <a href="#features" class="btn btn-primary">See Features</a>
+    <a href="#privacy" class="btn btn-secondary">Privacy First</a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Key Features -->
+<div class="section" id="features">
+  <div class="section-label">What's Inside</div>
+  <h2>Financial command center, in your pocket</h2>
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">📊</div>
+      <h3>Portfolio Overview</h3>
+      <p>Net worth at a glance — daily delta, sparkline history, top holdings by value. Real data, not a demo.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📥</div>
+      <h3>CSV Import</h3>
+      <p>Drop in your Fidelity, E*TRADE, or Robinhood CSV. Auto-detects the brokerage and parses it — including transaction history aggregation.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔥</div>
+      <h3>FIRE Planner</h3>
+      <p>Lean, Normal, Fat, Obese tiers. 13-city geo-arbitrage comparison. See how Lisbon vs. San Francisco changes your timeline by decades.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎲</div>
+      <h3>Monte Carlo Projections</h3>
+      <p>300-run simulation showing P10/P50/P90 outcomes. Toggle nominal vs. today's dollars. Milestones auto-calculate.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🏛️</div>
+      <h3>Tax Calculator</h3>
+      <p>Federal brackets (Single/MFJ), LTCG/STCG split, state tax, quarterly estimated payment alerts. See your effective rate instantly.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎓</div>
+      <h3>College Planner</h3>
+      <p>6 school presets (US Public to IIT). Scholarship input, funding coverage bar, gap analysis with monthly contribution hint.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Strategy Co-Pilot</h3>
+      <p>Claude AI critiques your portfolio, finds tax-loss opportunities, flags concentration risks. Your API key, your device, your data.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🌍</div>
+      <h3>12 Currencies</h3>
+      <p>US, India, UK, EU, Canada, Australia, Japan, Singapore, Switzerland, UAE, HK, NZ. One tap in Settings — every screen updates.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔐</div>
+      <h3>Biometric Lock</h3>
+      <p>Face ID or Touch ID on launch. Toggle in Settings. API keys stored in iOS Keychain / Android KeyStore — never in plaintext.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- All 20 Tabs -->
+<div class="section">
+  <div class="section-label">Complete Suite</div>
+  <h2>20 tabs, each built with real math</h2>
+  <div class="tabs-grid">
+    <div class="tab-item"><span class="num">01</span><div><div class="name">Overview</div><div class="desc">Net worth, sparkline, daily delta</div></div></div>
+    <div class="tab-item"><span class="num">02</span><div><div class="name">Holdings</div><div class="desc">CRUD + multi-CSV import</div></div></div>
+    <div class="tab-item"><span class="num">03</span><div><div class="name">Income</div><div class="desc">Cash flow + savings rate</div></div></div>
+    <div class="tab-item"><span class="num">04</span><div><div class="name">Analyze</div><div class="desc">Concentration treemap + growth chart</div></div></div>
+    <div class="tab-item"><span class="num">05</span><div><div class="name">Tax</div><div class="desc">Federal + state + capital gains</div></div></div>
+    <div class="tab-item"><span class="num">06</span><div><div class="name">Retirement</div><div class="desc">Allocation, rebalancing, dividends</div></div></div>
+    <div class="tab-item"><span class="num">07</span><div><div class="name">FIRE Planner</div><div class="desc">4 tiers + 13-city geo-arbitrage</div></div></div>
+    <div class="tab-item"><span class="num">08</span><div><div class="name">College</div><div class="desc">6 school types + scholarships</div></div></div>
+    <div class="tab-item"><span class="num">09</span><div><div class="name">Projections</div><div class="desc">Monte Carlo P10/P50/P90</div></div></div>
+    <div class="tab-item"><span class="num">10</span><div><div class="name">Cubs Fund</div><div class="desc">Per-child college tracking</div></div></div>
+    <div class="tab-item"><span class="num">11</span><div><div class="name">Home</div><div class="desc">Equity, appreciation, refi scenarios</div></div></div>
+    <div class="tab-item"><span class="num">12</span><div><div class="name">Debt</div><div class="desc">Mortgage amortization + payoff</div></div></div>
+    <div class="tab-item"><span class="num">13</span><div><div class="name">Reserve</div><div class="desc">Emergency fund gauge</div></div></div>
+    <div class="tab-item"><span class="num">14</span><div><div class="name">Wealth Fund</div><div class="desc">Strategy + DCA deployment</div></div></div>
+    <div class="tab-item"><span class="num">15</span><div><div class="name">Watchlist</div><div class="desc">FCF yield, moat, entry zones</div></div></div>
+    <div class="tab-item"><span class="num">16</span><div><div class="name">Strategy</div><div class="desc">Claude AI portfolio critique</div></div></div>
+    <div class="tab-item"><span class="num">17</span><div><div class="name">Macro</div><div class="desc">6-indicator regime snapshot</div></div></div>
+    <div class="tab-item"><span class="num">18</span><div><div class="name">HSA</div><div class="desc">Triple tax + employer match</div></div></div>
+    <div class="tab-item"><span class="num">19</span><div><div class="name">Vacation</div><div class="desc">Budget planner</div></div></div>
+    <div class="tab-item"><span class="num">20</span><div><div class="name">Car</div><div class="desc">Purchase + ownership costs</div></div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Privacy -->
+<div class="section" id="privacy">
+  <div class="section-label">Your Data, Your Device</div>
+  <h2>Privacy by architecture, not policy</h2>
+  <div class="privacy-grid">
+    <div class="privacy-card">
+      <div class="icon">💾</div>
+      <div>
+        <h3>Local SQLite</h3>
+        <p>All data stored on-device. No server, no sync, no cloud. Uninstall the app and it's gone.</p>
+      </div>
+    </div>
+    <div class="privacy-card">
+      <div class="icon">📡</div>
+      <div>
+        <h3>Zero network calls</h3>
+        <p>No analytics, no telemetry, no crash reporting. The only network call is Claude AI — and only when you explicitly invoke it.</p>
+      </div>
+    </div>
+    <div class="privacy-card">
+      <div class="icon">🔑</div>
+      <div>
+        <h3>Secure key storage</h3>
+        <p>API keys stored in iOS Keychain / Android KeyStore. Hardware-backed encryption. Never in plaintext, never logged.</p>
+      </div>
+    </div>
+    <div class="privacy-card">
+      <div class="icon">🧬</div>
+      <div>
+        <h3>Biometric gate</h3>
+        <p>Optional Face ID / Touch ID lock on launch. Your portfolio is invisible without your face or fingerprint.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Tech -->
+<div class="section">
+  <div class="section-label">Built With</div>
+  <h2>Modern, auditable, no black boxes</h2>
+  <div class="stack">
+    <span class="stack-tag">Flutter</span>
+    <span class="stack-tag">Dart</span>
+    <span class="stack-tag">Riverpod</span>
+    <span class="stack-tag">Drift (SQLite)</span>
+    <span class="stack-tag">fl_chart</span>
+    <span class="stack-tag">go_router</span>
+    <span class="stack-tag">local_auth</span>
+    <span class="stack-tag">flutter_secure_storage</span>
+    <span class="stack-tag">DM Sans + DM Mono</span>
+    <span class="stack-tag">iOS + Android</span>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Wealth Compass &middot; Built by Saurabh Sharma &middot; All rights reserved.
+</div>
+
+</body>
+</html>
