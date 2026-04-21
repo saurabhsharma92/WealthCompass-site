@@ -1,0 +1,144 @@
+# Wealth Compass
+
+> Your personal portfolio, navigated.
+
+A private, local-first portfolio management app for iOS and Android. 20 financial tools, zero cloud dependency. All data stays on your device.
+
+**[View the live site →](https://saurabhsharma92.github.io/WealthCompass-site/)**
+
+---
+
+## What It Does
+
+Wealth Compass is a mobile financial command center that replaces spreadsheets, fragmented apps, and cloud-dependent trackers with a single private app.
+
+### 20 Full Tabs
+
+| # | Tab | What it does |
+|---|-----|-------------|
+| 01 | **Overview** | Net worth hero, sparkline history, daily delta, top holdings |
+| 02 | **Holdings** | Add/edit/delete positions, multi-file CSV import (auto-detects Fidelity, E\*TRADE, Robinhood) |
+| 03 | **Income** | Paycheck breakdown, pre-tax deductions, savings rate |
+| 04 | **Analyze** | Concentration treemap, 10-year growth projection |
+| 05 | **Tax** | Federal brackets (Single/MFJ), LTCG/STCG, state tax, quarterly estimated payments |
+| 06 | **Retirement** | Allocation by category, target-vs-actual rebalancing hints, dividend calendar |
+| 07 | **FIRE Planner** | Lean/Normal/Fat/Obese tiers, 13-city geo-arbitrage comparison |
+| 08 | **College Planner** | 6 school presets (US Public/Private, IIT, UK, EU), scholarship input, funding coverage |
+| 09 | **Projections** | Monte Carlo (300 runs, P10/P50/P90), nominal vs. real dollars toggle |
+| 10 | **Cubs Fund** | Per-child tracking with configurable return/contribution assumptions |
+| 11 | **Home** | Equity snapshot, LTV, 5-30yr appreciation forecast, refi breakeven + rate sensitivity |
+| 12 | **Debt** | Mortgage amortization, extra payment savings, 4-rate refi scenario comparison |
+| 13 | **Reserve** | Emergency fund gauge with color-coded runway status |
+| 14 | **Wealth Fund** | Strategy selector (Index/Balanced/Growth/Income/Aggressive), DCA vs lump sum |
+| 15 | **Watchlist** | 12 tickers with FCF yield, div yield, moat rating, entry-zone status |
+| 16 | **Strategy** | Claude AI co-pilot — portfolio critique, tax-loss opportunities, concentration risks |
+| 17 | **Macro** | 6-indicator regime snapshot (Fed rate, 10Y, CPI, unemployment, yield curve, VIX) |
+| 18 | **HSA** | Triple tax advantage calculator with employer match |
+| 19 | **Vacation** | Line-item budget planner with save-per-month |
+| 20 | **Car** | Purchase + loan + monthly ownership cost breakdown |
+
+---
+
+## Key Features
+
+### CSV Import (Auto-Detect)
+Drop in your brokerage CSV. The parser auto-detects the source and handles format quirks:
+- **Fidelity** — multi-account merging, money-market filtering, footer stripping
+- **E\*TRADE** — 10-line preamble skipped, CASH/TOTAL rows filtered
+- **Robinhood** — aggregates Buy/Sell transaction history into net positions
+- Select multiple files at once — they merge by symbol
+
+### 12 Currencies
+US (USD), India (INR), UK (GBP), Europe (EUR), Canada (CAD), Australia (AUD), Japan (JPY), Singapore (SGD), Switzerland (CHF), UAE (AED), Hong Kong (HKD), New Zealand (NZD). One tap in Settings — every screen updates instantly.
+
+### FIRE Geo-Arbitrage
+Compare 13 cities (Bangalore, Bangkok, Lisbon, Austin, NYC, SF, London, Tokyo, Singapore, Dubai, Seattle, Mexico City) with cost-of-living multipliers. Combined with 4 lifestyle tiers (Lean 70% → Obese 250%), see exactly when you can retire — and where.
+
+### Monte Carlo Projections
+300-run simulation with configurable mean return + volatility. Shows P10 (pessimistic), P50 (median), P90 (optimistic) outcomes. Toggle between nominal and inflation-adjusted dollars. Milestone tracker auto-calculates years to $1M, $2M, $5M.
+
+### AI Strategy Co-Pilot
+Claude AI integration with 4 preset prompts:
+- "Critique my portfolio"
+- "Tax-loss opportunities"
+- "Concentration risks"
+- "Rebalance suggestion"
+
+Each prompt attaches a sanitized portfolio summary. API key stored in iOS Keychain / Android KeyStore — never in plaintext.
+
+### Biometric Lock
+Optional Face ID / Touch ID on launch. Toggle in Settings.
+
+---
+
+## Privacy by Architecture
+
+| Principle | How |
+|-----------|-----|
+| **Local SQLite** | All data on-device. No server, no sync, no cloud. |
+| **Zero telemetry** | No analytics, no crash reporting, no tracking. |
+| **Secure storage** | API keys in iOS Keychain / Android KeyStore. |
+| **No network calls** | Only exception: Claude AI, only when you explicitly invoke it. |
+| **Biometric gate** | Face ID / Touch ID locks the app on launch. |
+
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Flutter (iOS + Android) |
+| Language | Dart |
+| State Management | Riverpod |
+| Database | Drift (SQLite ORM) |
+| Charts | fl_chart |
+| Navigation | go_router |
+| Security | flutter_secure_storage + local_auth |
+| Typography | DM Sans (body) + DM Mono (numbers) |
+
+---
+
+## Design
+
+Minimalist, data-dense aesthetic. Thin borders, monospace numbers, tiny uppercase labels. Light + dark themes. Designed to feel like it was built by a person who uses it daily — not generated by a template.
+
+---
+
+## Architecture
+
+```
+lib/
+├── main.dart                  # Entry, theme, router, currency, biometric gate
+├── app/                       # Theme, typography, router, bottom tab shell
+├── data/                      # Drift DB, repositories, Riverpod providers
+│   └── db/                    # 6 tables: Holdings, Txns, Cubs, NetWorthHistory, WatchlistPrices, Settings
+├── features/                  # 20 tab screens (overview, holdings, fire, tax, etc.)
+├── shared/                    # Reusable widgets, formatters, pure calculation functions
+├── integrations/              # CSV importer + brokerage API stubs (Fidelity, E*TRADE, Robinhood)
+└── services/                  # Biometric auth, JSON backup, Claude API client
+```
+
+---
+
+## Future Roadmap
+
+- [ ] E\*TRADE OAuth API integration (free, official)
+- [ ] iOS home-screen widget (net worth + daily delta)
+- [ ] Dividend reinvestment optimizer
+- [ ] Apple Watch complication
+- [ ] Multi-scenario save/compare for FIRE planner
+- [ ] Stacked area chart (Retirement/Emergency/Wealth/Kids/Home)
+
+---
+
+## Author
+
+Built by **Saurabh Sharma**.
+
+Source code is private. This repository contains only the showcase site.
+
+---
+
+## License
+
+All rights reserved. The source code is proprietary and not included in this repository.
