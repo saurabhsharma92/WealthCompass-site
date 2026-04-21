@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Compass — Project Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f10;
+  --card: #1a1a1c;
+  --tx: #f0f0f0;
+  --sub: #a0a0a0;
+  --mut: #707075;
+  --bd: #2a2a2d;
+  --hv: #242428;
+  --gn: #16a34a;
+  --rd: #dc2626;
+  --ac: #3b82f6;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* --- Slide System --- */
+.slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 40px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.slide-num {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--mut);
+  letter-spacing: 0.1em;
+}
+.kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gn);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.slide h1 {
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.slide h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.slide h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.slide p {
+  font-size: 18px;
+  color: var(--sub);
+  line-height: 1.6;
+  max-width: 640px;
+}
+.slide p.wide { max-width: 800px; }
+.accent { color: var(--gn); }
+.dim { color: var(--mut); }
+
+/* --- Grid Layouts --- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 32px; }
+.grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 32px; }
+
+@media (max-width: 800px) {
+  .slide { padding: 40px 20px; }
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 500px) {
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+}
+
+/* --- Cards --- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 22px;
+}
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.card p {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+.card-sm {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.card-sm .num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mut);
+}
+.card-sm .label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.card-sm .desc {
+  font-size: 11px;
+  color: var(--sub);
+  margin-top: 2px;
+}
+
+/* --- Stat --- */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--bd);
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-label { font-size: 16px; color: var(--sub); }
+.stat-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* --- Tag --- */
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 20px;
+  color: var(--sub);
+}
+
+/* --- Timeline --- */
+.timeline { margin-top: 32px; }
+.tl-item {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-left: 2px solid var(--bd);
+  padding-left: 24px;
+  margin-left: 8px;
+  position: relative;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 22px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gn);
+}
+.tl-item.future::before { background: var(--mut); }
+.tl-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--mut);
+  min-width: 80px;
+  padding-top: 2px;
+}
+.tl-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.tl-content p { font-size: 13px; color: var(--sub); }
+
+/* --- Nav Dots --- */
+.nav-dots {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bd);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nav-dot:hover, .nav-dot.active { background: var(--tx); }
+@media (max-width: 600px) { .nav-dots { display: none; } }
+
+/* --- Progress Bar --- */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gn);
+  z-index: 200;
+  transition: width 0.1s;
+}
+
+/* --- Separator --- */
+.sep {
+  width: 60px;
+  height: 3px;
+  background: var(--gn);
+  border-radius: 2px;
+  margin: 24px 0;
+}
+
+/* --- Footer slide --- */
+.slide-footer {
+  text-align: center;
+}
+.slide-footer h2 { margin-bottom: 12px; }
+.slide-footer p { margin: 0 auto; }
+.slide-footer .links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 28px;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--bg);
+  background: var(--tx);
+  transition: transform 0.15s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  color: var(--tx);
+  border: 1px solid var(--bd);
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav class="nav-dots" id="dots"></nav>
+
+<!-- ==================== SLIDE 1: Title ==================== -->
+<div class="slide" id="s1">
+  <span class="slide-num">01 / 12</span>
+  <div class="kicker">Project Presentation</div>
+  <h1>Wealth<br>Compass</h1>
+  <div class="sep"></div>
+  <p>A local-first portfolio management app for iOS and Android. 20 financial tools, zero cloud dependency, real math — not templates.</p>
+  <p style="margin-top:16px;font-size:14px;color:var(--mut);">Built by Saurabh Sharma &middot; Flutter + Dart &middot; 2026</p>
+</div>
+
+<!-- ==================== SLIDE 2: Problem ==================== -->
+<div class="slide" id="s2">
+  <span class="slide-num">02 / 12</span>
+  <div class="kicker">The Problem</div>
+  <h2>Your financial life is <span class="accent">fragmented</span></h2>
+  <div class="sep"></div>
+  <p class="wide">Fidelity shows holdings. A spreadsheet tracks net worth. A FIRE calculator lives on some website. Tax planning is a different app. College fund is a guess. None of them talk to each other — and all of them want your data in their cloud.</p>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <h4>5+ apps</h4>
+      <p>Average investor juggles multiple apps, spreadsheets, and websites to see their full picture.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <h4>Cloud-dependent</h4>
+      <p>Most tools require accounts, sync data to servers, and monetize with ads or upsells.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧮</div>
+      <h4>Shallow calculators</h4>
+      <p>Web FIRE calculators give you one number. No tiers, no geo-arbitrage, no Monte Carlo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 3: Solution ==================== -->
+<div class="slide" id="s3">
+  <span class="slide-num">03 / 12</span>
+  <div class="kicker">The Solution</div>
+  <h2>One app. <span class="accent">20 tools.</span><br>Your device only.</h2>
+  <div class="sep"></div>
+  <p class="wide">Wealth Compass replaces your spreadsheets, brokerage views, and calculator bookmarks with a single private app. Every calculation runs locally. Data never leaves your phone.</p>
+</div>
+
+<!-- ==================== SLIDE 4: All 20 Tabs ==================== -->
+<div class="slide" id="s4">
+  <span class="slide-num">04 / 12</span>
+  <div class="kicker">Complete Suite</div>
+  <h2>20 tabs, each with <span class="accent">real math</span></h2>
+  <div class="grid-5">
+    <div class="card-sm"><div class="num">01</div><div class="label">Overview</div></div>
+    <div class="card-sm"><div class="num">02</div><div class="label">Holdings</div></div>
+    <div class="card-sm"><div class="num">03</div><div class="label">Income</div></div>
+    <div class="card-sm"><div class="num">04</div><div class="label">Analyze</div></div>
+    <div class="card-sm"><div class="num">05</div><div class="label">Tax</div></div>
+    <div class="card-sm"><div class="num">06</div><div class="label">Retirement</div></div>
+    <div class="card-sm"><div class="num">07</div><div class="label">FIRE</div></div>
+    <div class="card-sm"><div class="num">08</div><div class="label">College</div></div>
+    <div class="card-sm"><div class="num">09</div><div class="label">Projections</div></div>
+    <div class="card-sm"><div class="num">10</div><div class="label">Cubs Fund</div></div>
+    <div class="card-sm"><div class="num">11</div><div class="label">Home</div></div>
+    <div class="card-sm"><div class="num">12</div><div class="label">Debt</div></div>
+    <div class="card-sm"><div class="num">13</div><div class="label">Reserve</div></div>
+    <div class="card-sm"><div class="num">14</div><div class="label">Wealth Fund</div></div>
+    <div class="card-sm"><div class="num">15</div><div class="label">Watchlist</div></div>
+    <div class="card-sm"><div class="num">16</div><div class="label">Strategy AI</div></div>
+    <div class="card-sm"><div class="num">17</div><div class="label">Macro</div></div>
+    <div class="card-sm"><div class="num">18</div><div class="label">HSA</div></div>
+    <div class="card-sm"><div class="num">19</div><div class="label">Vacation</div></div>
+    <div class="card-sm"><div class="num">20</div><div class="label">Car</div></div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 5: Hero Features ==================== -->
+<div class="slide" id="s5">
+  <span class="slide-num">05 / 12</span>
+  <div class="kicker">Standout Features</div>
+  <h2>Not just calculators — <span class="accent">scenario engines</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <h4>FIRE Geo-Arbitrage</h4>
+      <p>4 lifestyle tiers (Lean → Obese) × 13 cities (Bangalore to San Francisco). See how moving to Lisbon buys you retirement 12 years early.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎲</div>
+      <h4>Monte Carlo Projections</h4>
+      <p>300-run simulation with P10/P50/P90 outcomes. Toggle nominal vs. today's dollars. Milestones auto-calculate.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📥</div>
+      <h4>Smart CSV Import</h4>
+      <p>Auto-detects Fidelity, E*TRADE, or Robinhood. Handles multi-account merging, transaction aggregation, and money-market filtering.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h4>AI Strategy Co-Pilot</h4>
+      <p>Claude AI critiques your real portfolio. Tax-loss harvesting, concentration risk, rebalance suggestions — with your actual holdings attached.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 6: CSV Deep Dive ==================== -->
+<div class="slide" id="s6">
+  <span class="slide-num">06 / 12</span>
+  <div class="kicker">Data Import</div>
+  <h2>Drop your brokerage CSV.<br><span class="accent">We handle the rest.</span></h2>
+  <div class="sep"></div>
+  <p class="wide">The parser auto-detects the brokerage, handles format quirks (multi-line fields, preamble rows, parenthetical negatives), and merges into your portfolio by symbol.</p>
+  <div class="grid-3" style="margin-top:24px;">
+    <div class="card">
+      <h4>Fidelity</h4>
+      <p>Positions export. Filters money-market (SPAXX**), strips footers, merges same symbol across 401(k) + Roth + taxable accounts.</p>
+    </div>
+    <div class="card">
+      <h4>E*TRADE</h4>
+      <p>Skips 10-line account summary preamble. Handles "Qty #" and "Last Price $" column names. Filters CASH/TOTAL rows.</p>
+    </div>
+    <div class="card">
+      <h4>Robinhood</h4>
+      <p>Transaction history (not positions). Aggregates Buy/Sell per symbol into net holdings with average cost basis. Multi-line CUSIP fields handled.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 7: Currency ==================== -->
+<div class="slide" id="s7">
+  <span class="slide-num">07 / 12</span>
+  <div class="kicker">Global</div>
+  <h2><span class="accent">12 currencies.</span> One tap.</h2>
+  <div class="sep"></div>
+  <p>Switch country in Settings — every screen, every tab, every calculator updates instantly. Number formatting respects locale.</p>
+  <div class="tag-row" style="margin-top:24px;">
+    <span class="tag">🇺🇸 USD $</span>
+    <span class="tag">🇮🇳 INR ₹</span>
+    <span class="tag">🇬🇧 GBP £</span>
+    <span class="tag">🇪🇺 EUR €</span>
+    <span class="tag">🇨🇦 CAD C$</span>
+    <span class="tag">🇦🇺 AUD A$</span>
+    <span class="tag">🇯🇵 JPY ¥</span>
+    <span class="tag">🇸🇬 SGD S$</span>
+    <span class="tag">🇨🇭 CHF Fr</span>
+    <span class="tag">🇦🇪 AED د.إ</span>
+    <span class="tag">🇭🇰 HKD HK$</span>
+    <span class="tag">🇳🇿 NZD NZ$</span>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 8: Privacy ==================== -->
+<div class="slide" id="s8">
+  <span class="slide-num">08 / 12</span>
+  <div class="kicker">Privacy</div>
+  <h2>Privacy by <span class="accent">architecture</span>,<br>not by policy</h2>
+  <div class="sep"></div>
+  <div style="max-width:600px;margin-top:16px;">
+    <div class="stat-row"><span class="stat-label">Data storage</span><span class="stat-value">On-device SQLite</span></div>
+    <div class="stat-row"><span class="stat-label">Analytics</span><span class="stat-value" style="color:var(--gn);">None</span></div>
+    <div class="stat-row"><span class="stat-label">Crash reporting</span><span class="stat-value" style="color:var(--gn);">None</span></div>
+    <div class="stat-row"><span class="stat-label">Network calls</span><span class="stat-value">Claude AI only (opt-in)</span></div>
+    <div class="stat-row"><span class="stat-label">API key storage</span><span class="stat-value">iOS Keychain / KeyStore</span></div>
+    <div class="stat-row"><span class="stat-label">Auth</span><span class="stat-value">Face ID / Touch ID</span></div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 9: Tech Stack ==================== -->
+<div class="slide" id="s9">
+  <span class="slide-num">09 / 12</span>
+  <div class="kicker">Engineering</div>
+  <h2>Tech stack</h2>
+  <div class="sep"></div>
+  <div style="max-width:600px;margin-top:16px;">
+    <div class="stat-row"><span class="stat-label">Framework</span><span class="stat-value">Flutter</span></div>
+    <div class="stat-row"><span class="stat-label">Language</span><span class="stat-value">Dart</span></div>
+    <div class="stat-row"><span class="stat-label">State</span><span class="stat-value">Riverpod</span></div>
+    <div class="stat-row"><span class="stat-label">Database</span><span class="stat-value">Drift (SQLite)</span></div>
+    <div class="stat-row"><span class="stat-label">Charts</span><span class="stat-value">fl_chart</span></div>
+    <div class="stat-row"><span class="stat-label">Navigation</span><span class="stat-value">go_router</span></div>
+    <div class="stat-row"><span class="stat-label">Security</span><span class="stat-value">flutter_secure_storage</span></div>
+    <div class="stat-row"><span class="stat-label">Typography</span><span class="stat-value">DM Sans + DM Mono</span></div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 10: Architecture ==================== -->
+<div class="slide" id="s10">
+  <span class="slide-num">10 / 12</span>
+  <div class="kicker">Architecture</div>
+  <h2>Clean layers, <span class="accent">no circular deps</span></h2>
+  <div class="grid-3" style="margin-top:24px;">
+    <div class="card">
+      <h4>Presentation</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/features/</p>
+      <p>20 screen widgets. Each owns its UI + local state. CalcScaffold for consistency. Riverpod for reactive data.</p>
+    </div>
+    <div class="card">
+      <h4>Data</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/data/</p>
+      <p>Drift SQLite with 6 tables. Repositories for CRUD. StreamProviders for reactive UI. Settings as key-value pairs.</p>
+    </div>
+    <div class="card">
+      <h4>Domain</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/shared/</p>
+      <p>Pure calculation functions (mortgage, FIRE, tax brackets, Monte Carlo). No I/O. Testable in isolation.</p>
+    </div>
+    <div class="card">
+      <h4>Integrations</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/integrations/</p>
+      <p>CSV importer (3 brokerages). Abstract BrokerageClient interface. Stubs for future API connections.</p>
+    </div>
+    <div class="card">
+      <h4>Services</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/services/</p>
+      <p>Biometric auth, JSON backup/restore, Claude API client. Stateless utilities.</p>
+    </div>
+    <div class="card">
+      <h4>Theming</h4>
+      <p style="font-family:'DM Mono';font-size:12px;color:var(--mut);margin-bottom:8px;">lib/app/</p>
+      <p>WcColors extension for light/dark. DM Sans/Mono typography system. go_router + shell bottom bar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 11: Roadmap ==================== -->
+<div class="slide" id="s11">
+  <span class="slide-num">11 / 12</span>
+  <div class="kicker">What's Next</div>
+  <h2>Roadmap</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-label">SHIPPED</div>
+      <div class="tl-content">
+        <h4>v1.0 — Full app with 20 tabs</h4>
+        <p>CSV import, FIRE geo-arbitrage, Monte Carlo, Claude AI, 12 currencies, biometric lock, JSON backup.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-label">NEXT</div>
+      <div class="tl-content">
+        <h4>E*TRADE OAuth integration</h4>
+        <p>Direct API sync for holdings + transactions. Free, official. No scraping.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-label">PLANNED</div>
+      <div class="tl-content">
+        <h4>iOS home-screen widget</h4>
+        <p>Net worth + daily delta at a glance without opening the app.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-label">PLANNED</div>
+      <div class="tl-content">
+        <h4>Dividend reinvestment optimizer</h4>
+        <p>Score holdings by underweight %, valuation, yield, and beta. Auto-suggest top 3 to reinvest into.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-label">FUTURE</div>
+      <div class="tl-content">
+        <h4>Apple Watch complication</h4>
+        <p>Tiny dial showing net worth delta. Quick glance from your wrist.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SLIDE 12: Closing ==================== -->
+<div class="slide slide-footer" id="s12">
+  <span class="slide-num">12 / 12</span>
+  <div class="kicker">Thank You</div>
+  <h2>Wealth Compass</h2>
+  <p>Your wealth, navigated.</p>
+  <div class="sep" style="margin:24px auto;"></div>
+  <p style="font-size:14px;color:var(--mut);">Built by Saurabh Sharma &middot; Flutter + Dart &middot; 2026</p>
+  <div class="links">
+    <a href="index.html" class="btn">View Site</a>
+    <a href="https://github.com/saurabhsharma92/WealthCompass-site" class="btn btn-outline">GitHub</a>
+  </div>
+</div>
+
+<script>
+// Navigation dots
+const slides = document.querySelectorAll('.slide');
+const dotsNav = document.getElementById('dots');
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot';
+  d.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+  dotsNav.appendChild(d);
+});
+const dots = document.querySelectorAll('.nav-dot');
+
+// Progress bar + active dot
+const progress = document.getElementById('progress');
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progress.style.width = pct + '%';
+
+  let active = 0;
+  slides.forEach((s, i) => {
+    if (s.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === active));
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  let active = 0;
+  slides.forEach((s, i) => {
+    if (s.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && active < slides.length - 1) {
+    e.preventDefault();
+    slides[active + 1].scrollIntoView({ behavior: 'smooth' });
+  }
+  if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && active > 0) {
+    e.preventDefault();
+    slides[active - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>
